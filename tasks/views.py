@@ -21,8 +21,10 @@ class TaskViewSet(viewsets.ModelViewSet):
     ordering_fields = ["created_at", "updated_at", "priority", "status"]
 
     def get_queryset(self):
-        # Solo las tareas del usuario autenticado
-        return Task.objects.filter(owner=self.request.user).select_related("owner")
+        # # Solo las tareas del usuario autenticado
+        # return Task.objects.filter(owner=self.request.user).select_related("owner")
+        # Permitir ver todas las tareas, pero filtrar permisos en IsOwnerOrReadOnly
+        return Task.objects.all()
 
     def get_serializer_class(self):
         if self.action in ["list"]:
