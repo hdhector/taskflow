@@ -1,0 +1,95 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+
+# === Virtual environments ===
+venv/
+env/
+.venv/
+ENV/
+
+# === Django stuff ===
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static_root/
+local_settings.py
+
+# === PyCharm ===
+.idea/
+*.iml
+
+# === VSCode (por si alternas IDE) ===
+.vscode/
+
+# === Byte-compiled / cache ===
+*.py[cod]
+__pycache__/
+
+# === Distribution / packaging ===
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# === Unit test / coverage reports ===
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# === Environments ===
+.env
+.env.*
+*.env
+
+# === MyPy / type checking ===
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# === Django Migrations (opcional: si no querés versionarlas) ===
+# **/migrations/
+# !**/migrations/__init__.py
+
+# === Logs ===
+*.log
+logs/
+
+# === Jupyter / Notebooks ===
+.ipynb_checkpoints
+
+# === System files ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Docker (si usas docker-compose) ===
+*.pid
+*.tar
+*.bak
+docker-compose.override.yml
