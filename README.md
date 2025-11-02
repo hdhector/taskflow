@@ -60,6 +60,10 @@ taskflow/
 │   ├── urls.py                      # API routes for the app
 │   └── views.py                     # ViewSets for Task and Comment
 │
+├── Dockerfile                       # Docker image configuration
+├── docker-compose.yml               # Docker Compose orchestration
+├── entrypoint.sh                    # Startup script for Docker container
+├── .dockerignore                    # Files to exclude from Docker build
 ├── manage.py
 └── README.md
 ```
@@ -126,6 +130,107 @@ taskflow/
 
    The API will be available at:
    `http://127.0.0.1:8000/api/`
+
+---
+
+## Installation with Docker (Recommended)
+
+The project includes Docker configuration for easy deployment and development. This method automatically sets up PostgreSQL, runs migrations, creates a superuser, and starts the development server.
+
+### Prerequisites
+
+* Docker
+* Docker Compose
+
+### Quick Start
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/hdhector/taskflow.git
+   cd taskflow
+   ```
+
+2. **Create environment file**
+
+   Create a `.env` file in the project root with the following variables:
+
+   ```env
+   # Database configuration
+   POSTGRES_DB=taskflow
+   POSTGRES_USER=postgres
+   POSTGRES_PASSWORD=postgres
+   POSTGRES_HOST=db
+   POSTGRES_PORT=5432
+
+   # Django configuration
+   DEBUG=True
+   ALLOWED_HOSTS=*
+   SECRET_KEY=your-secret-key-here
+
+   # Superuser (optional, defaults shown)
+   DJANGO_SUPERUSER_USERNAME=admin
+   DJANGO_SUPERUSER_EMAIL=admin@example.com
+   DJANGO_SUPERUSER_PASSWORD=admin123
+   ```
+
+3. **Build and start containers**
+
+   ```bash
+   docker compose up --build
+   ```
+
+   This will:
+   * Build the Django application container
+   * Start PostgreSQL database
+   * Run database migrations automatically
+   * Create a superuser (if it doesn't exist)
+   * Start the Django development server
+
+4. **Access the API**
+
+   The API will be available at:
+   `http://localhost:8000/api/`
+
+### Docker Commands
+
+**Start services in the background:**
+```bash
+docker compose up -d
+```
+
+**Stop services:**
+```bash
+docker compose down
+```
+
+**View logs:**
+```bash
+docker compose logs -f web
+```
+
+**Run management commands:**
+```bash
+docker compose exec web python manage.py load_tasks
+docker compose exec web python manage.py createsuperuser
+```
+
+**Run tests:**
+```bash
+docker compose exec web python manage.py test tasks
+```
+
+### Entrypoint Script
+
+The `entrypoint.sh` script automatically handles:
+
+* **Database readiness check**: Waits for PostgreSQL to be available before proceeding
+* **Migrations**: Applies all database migrations automatically
+* **Superuser creation**: Creates a Django superuser if one doesn't exist (configurable via environment variables)
+* **Static files**: Collects static files for the application
+* **Server startup**: Launches the Django development server on `0.0.0.0:8000`
+
+The script uses environment variables for configuration, making it easy to customize the setup without modifying the script.
 
 ---
 

@@ -1,0 +1,39 @@
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Django
+*.log
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static_root/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Otros
+.DS_Store
+*.egg-info/
+dist/
+build/

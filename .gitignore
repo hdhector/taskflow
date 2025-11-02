@@ -63,7 +63,7 @@ coverage.xml
 .pytest_cache/
 
 # === Environments ===
-.env
+.env.example
 .env.*
 *.env
 
