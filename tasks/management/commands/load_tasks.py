@@ -5,10 +5,12 @@ from faker import Faker
 import random
 
 class Command(BaseCommand):
+    """Comando para generar datos de prueba: 5 usuarios, 20 tareas y comentarios aleatorios usando Faker."""
     help = "Carga datos de prueba (usuarios, tareas y comentarios) usando Faker"
 
     def handle(self, *args, **options):
-        fake = Faker("es_ES")
+        """Genera usuarios, tareas y comentarios con datos aleatorios en español."""
+        fake = Faker("es_ES")  # Generador de datos falsos en español
         User = get_user_model()
 
         self.stdout.write(self.style.MIGRATE_HEADING("Generando datos de prueba..."))
@@ -21,7 +23,7 @@ class Command(BaseCommand):
                 username=username,
                 defaults={"email": fake.email()}
             )
-            user.set_password("demo123")
+            user.set_password("demo123")  # Contraseña por defecto para usuarios de prueba
             user.save()
             users.append(user)
         self.stdout.write(self.style.SUCCESS(f"{len(users)} usuarios creados."))
@@ -32,10 +34,10 @@ class Command(BaseCommand):
 
         tasks = []
         for _ in range(20):
-            owner = random.choice(users)
+            owner = random.choice(users)  # Asignar propietario aleatorio
             task = Task.objects.create(
-                title=fake.sentence(nb_words=4),
-                description=fake.paragraph(nb_sentences=3),
+                title=fake.sentence(nb_words=4),  # Título de 4 palabras
+                description=fake.paragraph(nb_sentences=3),  # Descripción de 3 oraciones
                 priority=random.choice(priorities),
                 status=random.choice(statuses),
                 owner=owner,
@@ -45,8 +47,8 @@ class Command(BaseCommand):
 
         # --- Crear comentarios ---
         total_comments = 0
-        for task in random.sample(tasks, k=15):  # solo algunas tareas con comentarios
-            for _ in range(random.randint(1, 3)):
+        for task in random.sample(tasks, k=15):  # Solo 15 de las 20 tareas tendrán comentarios
+            for _ in range(random.randint(1, 3)):  # Entre 1 y 3 comentarios por tarea
                 Comment.objects.create(
                     task=task,
                     author=random.choice(users),

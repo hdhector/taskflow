@@ -3,16 +3,18 @@ from .models import Task, Comment
 # Register your models here.
 
 class CommentInline(admin.TabularInline):
+    """Permite gestionar comentarios directamente desde la página de edición de tarea."""
     model = Comment
     fk_name = "task" #reforzar vinculo
     extra = 1  # Muestra un campo vacío adicional
     verbose_name_plural = "comments"
     fields = ("content", "author","created_at")
-    readonly_fields = ("author","created_at",)
+    readonly_fields = ("author","created_at",)  # Estos campos se asignan automáticamente
 
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
+    """Configuración del panel de administración para el modelo Task con filtros, búsqueda y control de permisos."""
     list_display = ("title", "owner", "status", "priority", "created_at")
     search_fields = ("title", "description")
     list_filter = ("status", "priority", "owner")
@@ -20,16 +22,14 @@ class TaskAdmin(admin.ModelAdmin):
     inlines = [CommentInline]
 
     def save_model(self, request, obj, form, change):
+        """Asigna automáticamente el usuario actual como propietario al crear una nueva tarea."""
         # Asigna automáticamente el usuario creador
         if not obj.pk:
             obj.owner = request.user
         super().save_model(request, obj, form, change)
 
     def save_formset(self, request, form, formset, change):
-        """
-        Asigna automáticamente el autor del comentario
-        y asegura que el comentario esté vinculado a la tarea.
-        """
+        """Asigna automáticamente el autor del comentario y lo vincula a la tarea al guardar desde el inline."""
         instances = formset.save(commit=False)
         for instance in instances:
             if isinstance(instance, Comment):
@@ -39,6 +39,7 @@ class TaskAdmin(admin.ModelAdmin):
         formset.save_m2m()
 
     def has_change_permission(self, request, obj=None):
+        """Permite ver el detalle de cualquier tarea, pero la edición se controla en get_readonly_fields."""
         # Permitir entrar a la vista de detalle de cualquier tarea
         if obj is None:
             return True
