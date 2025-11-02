@@ -7,6 +7,11 @@ echo "Starting TaskFlow setup..."
 if [ -f .env ]; then
   echo "Loading environment variables from .env..."
   set -o allexport; source .env; set +o allexport
+elif [ -f .env.example ]; then
+  echo "Warning: .env file not found. Using .env.example as reference..."
+  echo "Consider copying .env.example to .env and configuring your settings."
+  # Cargar .env.example como referencia (no sobrescribirá si ya están definidas)
+  set -o allexport; source .env.example; set +o allexport 2>/dev/null || true
 fi
 
 # Esperar a que la base de datos esté disponible

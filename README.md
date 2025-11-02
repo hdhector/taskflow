@@ -64,6 +64,8 @@ taskflow/
 ├── Dockerfile                       # Docker image configuration
 ├── docker-compose.yml               # Docker Compose orchestration
 ├── entrypoint.sh                    # Startup script for Docker container
+├── deploy.sh                        # Automated deployment script
+├── .env.example                     # Example environment variables template
 ├── .dockerignore                    # Files to exclude from Docker build
 ├── manage.py
 └── README.md
@@ -226,6 +228,44 @@ docker compose exec web python manage.py createsuperuser
 ```bash
 docker compose exec web python manage.py test tasks
 ```
+
+### Deploy Script
+
+The project includes an automated deployment script (`deploy.sh`) that simplifies initial setup and application deployment.
+
+**Script Features:**
+
+* **Environment file verification**: Automatically checks for `.env` file and creates it from `.env.example` if missing
+* **Docker verification**: Validates that Docker is installed and running
+* **Docker Compose detection**: Automatically detects and uses `docker-compose` or `docker compose` based on system availability
+* **Automatic container building**: Builds all necessary Docker images
+* **Background deployment**: Starts services in detached mode (`-d`)
+
+**Using the deployment script:**
+
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+
+The script will automatically:
+
+1. **Check and create `.env` file**: If `.env` doesn't exist, it will be created from `.env.example`
+2. **Verify Docker installation**: Ensures Docker is installed and the daemon is running
+3. **Verify Docker Compose**: Checks for Docker Compose availability (supports both `docker-compose` and `docker compose` commands)
+4. **Build containers**: Builds all Docker images required for the application
+5. **Start services**: Launches all services in detached mode
+
+**Important Notes:**
+
+* If the script creates `.env` from `.env.example`, you must edit it manually with your configuration values
+* **Critical for production**: Change the `SECRET_KEY` in the `.env` file before deploying to production
+* The script automatically uses the appropriate Docker Compose command available on your system (`docker-compose` or `docker compose`)
+
+**Post-deployment:**
+
+The application will be available at: `http://localhost:8000`
+
 
 ### Entrypoint Script
 
