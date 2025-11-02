@@ -63,8 +63,8 @@ coverage.xml
 .pytest_cache/
 
 # === Environments ===
-.env.example
-.env.*
+#.env.example
+#.env.*
 *.env
 
 # === MyPy / type checking ===
