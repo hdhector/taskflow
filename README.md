@@ -32,6 +32,7 @@ The main purpose of this repository is to demonstrate Django and DRF development
 
 * django-filter (for filtering and searching)
 * Faker (for generating fake test data)
+* django-unfold (modern admin interface theme)
 
 ---
 
@@ -131,6 +132,9 @@ taskflow/
    The API will be available at:
    `http://127.0.0.1:8000/api/`
 
+   The Django admin interface (with django-unfold theme) will be available at:
+   `http://127.0.0.1:8000/admin/`
+
 ---
 
 ## Installation with Docker (Recommended)
@@ -187,10 +191,13 @@ The project includes Docker configuration for easy deployment and development. T
    * Create a superuser (if it doesn't exist)
    * Start the Django development server
 
-4. **Access the API**
+4. **Access the API and Admin**
 
    The API will be available at:
    `http://localhost:8000/api/`
+
+   The Django admin interface (with django-unfold theme) will be available at:
+   `http://localhost:8000/admin/`
 
 ### Docker Commands
 

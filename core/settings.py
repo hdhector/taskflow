@@ -15,6 +15,11 @@ from datetime import timedelta
 
 import os
 
+
+def environment_callback(request):
+    """Callback para mostrar el ambiente actual en el admin"""
+    return os.getenv("ENVIRONMENT", "development").title()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,18 +39,21 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "unfold",  # Debe ir antes de django.contrib.admin
+    "unfold.contrib.filters",  # Filtros mejorados
+    "unfold.contrib.forms",  # Formularios mejorados
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 
     "rest_framework",
     "django_filters",
 
     # local
-    'tasks',
+    "tasks",
 ]
 
 MIDDLEWARE = [
@@ -156,3 +164,23 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django Unfold Configuration
+UNFOLD = {
+    "SITE_TITLE": "TaskFlow Admin",
+    "SITE_HEADER": "TaskFlow",
+    "SITE_URL": "/",
+    "SITE_ICON": None,
+    "SITE_LOGO": None,
+    "SITE_SYMBOL": "settings",  # Icono del menú
+    "SHOW_HISTORY": True,  # Mostrar historial en el admin
+    "SHOW_VIEW_ON_SITE": True,  # Mostrar "Ver en sitio"
+    "ENVIRONMENT": "core.settings.environment_callback",  # Callback para mostrar ambiente
+    "DASHBOARD_CALLBACK": None,
+    "LOGIN": {
+        "image": None,
+        "redirect_after": None,
+    },
+    "STYLES": [],
+    "SCRIPTS": [],
+}
